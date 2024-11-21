@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.Views.DashboardViewController" stylesheets="@dashboard.css" fx:id="dashBox">
+    <BorderPane prefHeight="700.0" prefWidth="1200.0">
+        <left>
+            <VBox spacing="10" styleClass="sidebar" prefWidth="220">
+                <padding>
+                    <Insets top="20" right="10" bottom="20" left="10"/>
+                </padding>
+
+                <VBox styleClass="profile-section" alignment="CENTER" spacing="10">
+                    <Circle fx:id="profileImage" radius="40" styleClass="profile-image"/>
+                    <Label text="Admin User" styleClass="profile-name"/>
+                    <Label text="Library Administrator" styleClass="profile-role"/>
+                </VBox>
+
+                <Separator styleClass="sidebar-separator"/>
+
+                <Button text="Dashboard" onAction="#handleDashboardView" styleClass="nav-button">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="DASHBOARD" size="16"/>
+                    </graphic>
+                </Button>
+                <Button text="Books" onAction="#handleBookView" styleClass="nav-button" fx:id="bookView">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="BOOK" size="16"/>
+                    </graphic>
+                </Button>
+                <Button text="Patrons" onAction="#handlePatronView" styleClass="nav-button">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="USERS" size="16"/>
+                    </graphic>
+                </Button>
+                <Button text="Staff" onAction="#handleStaffView" styleClass="nav-button">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="USER" size="16"/>
+                    </graphic>
+                </Button>
+                <Button text="Transactions" onAction="#handleTransactionView" styleClass="nav-button">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="EXCHANGE" size="16"/>
+                    </graphic>
+                </Button>
+                <Button text="Reservations" onAction="#handleReservationView" styleClass="nav-button">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="CALENDAR" size="16"/>
+                    </graphic>
+                </Button>
+            </VBox>
+        </left>
+
+        <center>
+            <ScrollPane fitToWidth="true" styleClass="main-scroll-pane">
+                <VBox spacing="20" styleClass="main-content">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <HBox spacing="20" alignment="CENTER_LEFT">
+                        <Label text="Dashboard Overview" styleClass="page-title">
+                            <font>
+                                <Font name="System Bold" size="24.0"/>
+                            </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Refresh Data" styleClass="refresh-button">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="REFRESH" size="14"/>
+                            </graphic>
+                        </Button>
+                    </HBox>
+
+                    <!-- African Leaders Quotes Section -->
+                    <HBox spacing="20" styleClass="quotes-container">
+                        <VBox styleClass="quote-box">
+                            <ImageView styleClass="leader-image" fitWidth="100" fitHeight="100">
+                                <image>
+                                    <Image url="@/mandela.jpeg"/>
+                                </image>
+                            </ImageView>
+                            <Label text="Nelson Mandela" styleClass="leader-name"/>
+                            <Label text="Education is the most powerful weapon which you can use to change the world."
+                                   styleClass="quote-text" wrapText="true"/>
+                        </VBox>
+
+                        <VBox styleClass="quote-box">
+                            <ImageView styleClass="leader-image" fitWidth="100" fitHeight="100">
+                                <image>
+                                    <Image url="@/Nkrumah.jpg"/>
+                                </image>
+                            </ImageView>
+                            <Label text="Kwame Nkrumah" styleClass="leader-name"/>
+                            <Label text="We face neither East nor West; we face forward."
+                                   styleClass="quote-text" wrapText="true"/>
+                        </VBox>
+
+                        <VBox styleClass="quote-box">
+                            <ImageView styleClass="leader-image" fitWidth="100" fitHeight="100">
+                                <image>
+                                    <Image url="@/maathai.jpg"/>
+                                </image>
+                            </ImageView>
+                            <Label text="Wangari Maathai" styleClass="leader-name"/>
+                            <Label text="It's the little things citizens do. That's what will make the difference."
+                                   styleClass="quote-text" wrapText="true"/>
+                        </VBox>
+                    </HBox>
+
+                    <GridPane hgap="20" vgap="20">
+                        <VBox styleClass="stat-box" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <FontAwesomeIconView glyphName="BOOK" size="24" styleClass="stat-icon"/>
+                            <Label text="Total Books" styleClass="stat-label"/>
+                            <Label fx:id="totalBooksLabel" text="0" styleClass="stat-value"/>
+                            <Label text="12% increase" styleClass="stat-trend positive"/>
+                        </VBox>
+
+                        <VBox styleClass="stat-box" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <FontAwesomeIconView glyphName="USERS" size="24" styleClass="stat-icon"/>
+                            <Label text="Active Patrons" styleClass="stat-label"/>
+                            <Label fx:id="activePatronsLabel" text="0" styleClass="stat-value"/>
+                            <Label text="5% increase" styleClass="stat-trend positive"/>
+                        </VBox>
+
+                        <VBox styleClass="stat-box" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <FontAwesomeIconView glyphName="EXCHANGE" size="24" styleClass="stat-icon"/>
+                            <Label text="Active Transactions" styleClass="stat-label"/>
+                            <Label fx:id="activeTransactionsLabel" text="0" styleClass="stat-value"/>
+                            <Label text="3% decrease" styleClass="stat-trend negative"/>
+                        </VBox>
+
+                        <VBox styleClass="stat-box" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <FontAwesomeIconView glyphName="CALENDAR" size="24" styleClass="stat-icon"/>
+                            <Label text="Pending Reservations" styleClass="stat-label"/>
+                            <Label fx:id="pendingReservationsLabel" text="0" styleClass="stat-value"/>
+                            <Label text="8% increase" styleClass="stat-trend positive"/>
+                        </VBox>
+                    </GridPane>
+
+                    <HBox spacing="20">
+                        <VBox styleClass="chart-container" HBox.hgrow="ALWAYS">
+                            <Label text="Monthly Book Circulation" styleClass="chart-title"/>
+                            <BarChart fx:id="circulationChart" legendVisible="false">
+                                <xAxis>
+                                    <CategoryAxis label="Month"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Books"/>
+                                </yAxis>
+                            </BarChart>
+                        </VBox>
+
+                        <VBox styleClass="chart-container" HBox.hgrow="ALWAYS">
+                            <Label text="Popular Categories" styleClass="chart-title"/>
+                            <PieChart fx:id="categoryChart" legendVisible="true"/>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+            </ScrollPane>
+        </center>
+    </BorderPane>
+</HBox>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<BorderPane fx:controller="Controller.Views.BookViewController"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@styles.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <top>
+        <VBox spacing="10">
+            <HBox spacing="15" alignment="CENTER_LEFT" styleClass="navigation-header">
+                <Button text="Back to Dashboard" onAction="#handleBackToDashboard" styleClass="button-secondary"/>
+                <Label text="Library Book Management" styleClass="header-label"/>
+            </HBox>
+            <Separator/>
+        </VBox>
+    </top>
+
+    <left>
+        <VBox styleClass="form-section" spacing="15">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Add New Book" styleClass="form-title"/>
+            <Separator/>
+
+            <Label text="Title:" styleClass="field-label"/>
+            <TextField fx:id="titleField" promptText="Enter title"/>
+
+            <Label text="Author:" styleClass="field-label"/>
+            <TextField fx:id="authorField" promptText="Enter author"/>
+
+            <Label text="Genre:" styleClass="field-label"/>
+            <TextField fx:id="genreField" promptText="Enter genre"/>
+
+            <Label text="Publication Year:" styleClass="field-label"/>
+            <Spinner fx:id="yearSpinner" min="1900" max="2024" initialValue="2024"/>
+
+            <Label text="Status:" styleClass="field-label"/>
+            <ComboBox fx:id="statusComboBox"/>
+
+            <Separator/>
+
+            <Button text="Add Book" onAction="#handleAddBook" styleClass="button-success"/>
+            <Button text="Clear Form" onAction="#handleClearForm" styleClass="button-secondary"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets left="20"/>
+            </padding>
+
+            <HBox styleClass="search-box">
+                <TextField fx:id="searchField" promptText="Search books..." HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <TableView fx:id="bookTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID"/>
+                    <TableColumn fx:id="titleColumn" text="Title"/>
+                    <TableColumn fx:id="authorColumn" text="Author"/>
+                    <TableColumn fx:id="genreColumn" text="Genre"/>
+                    <TableColumn fx:id="yearColumn" text="Year"/>
+                    <TableColumn fx:id="statusColumn" text="Status"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Delete Selected" onAction="#handleDeleteBook" styleClass="button-danger"/>
+                <Button text="Refresh" onAction="#handleRefresh" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>
