@@ -6,6 +6,7 @@ import Entity.Enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class TransactionDAO {
                             transactionType = TransactionType.valueOf(transactionTypeString.toUpperCase());
                         } catch (IllegalArgumentException e) {
                             // Handle unexpected values (e.g., log an error or set to a default value)
-                            transactionType = TransactionType.RESERVE; // Default value or log error
+                            transactionType = TransactionType.RETURN; // Default value or log error
                         }
                     }
 
@@ -84,7 +85,7 @@ public class TransactionDAO {
                         transactionType = TransactionType.valueOf(transactionTypeString.toUpperCase());
                     } catch (IllegalArgumentException e) {
                         // Handle unexpected values (e.g., log an error or set to a default value)
-                        transactionType = TransactionType.RESERVE; // Default value or log error
+                        transactionType = TransactionType.RETURN; // Default value or log error
                     }
                 }
 
@@ -127,4 +128,47 @@ public class TransactionDAO {
             pstmt.executeUpdate();
         }
     }
+
+    public boolean borrowBook(int patronId, int bookId) throws SQLException {
+        // First, check if the book is available for borrowing
+        String checkAvailabilityQuery = "SELECT status FROM Books WHERE book_id = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(checkAvailabilityQuery)) {
+            pstmt.setInt(1, bookId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next() && rs.getString("status").equalsIgnoreCase("available")) {
+                    // The book is available, create a borrow transaction
+
+                    // Get the current date and calculate the due date (e.g., 2 weeks from now)
+                    LocalDate borrowDate = LocalDate.now();
+                    LocalDate dueDate = borrowDate.plusWeeks(2);
+
+                    // First, create the transaction record in the Transactions table
+                    String insertTransactionQuery = "INSERT INTO Transactions (patron_id, book_id, borrow_date, due_date, transaction_type) " +
+                            "VALUES (?, ?, ?, ?, ?)";
+                    try (PreparedStatement pstmtInsert = conn.prepareStatement(insertTransactionQuery, Statement.RETURN_GENERATED_KEYS)) {
+                        pstmtInsert.setInt(1, patronId);
+                        pstmtInsert.setInt(2, bookId);
+                        pstmtInsert.setDate(3, Date.valueOf(borrowDate));
+                        pstmtInsert.setDate(4, Date.valueOf(dueDate));
+                        pstmtInsert.setString(5, "BORROW"); // Transaction type is BORROW
+                        int affectedRows = pstmtInsert.executeUpdate();
+
+                        if (affectedRows > 0) {
+                            // Update the book table to mark the book as borrowed
+                            String updateBookStatusQuery = "UPDATE Books SET status = ? WHERE book_id = ?";
+                            try (PreparedStatement pstmtUpdate = conn.prepareStatement(updateBookStatusQuery)) {
+                                pstmtUpdate.setString(1, "BORROWED"); // Mark the book as borrowed
+                                pstmtUpdate.setInt(2, bookId);
+                                pstmtUpdate.executeUpdate();
+                            }
+                            return true; // Successfully borrowed the book
+                        }
+                    }
+                }
+            }
+        }
+        return false; // Book not available for borrowing
+    }
+
 }
