@@ -37,6 +37,20 @@ public class TransactionDAO {
             pstmt.setInt(1, transactionId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
+                    // Retrieve transaction_type and handle potential case insensitivity
+                    String transactionTypeString = rs.getString("transaction_type");
+                    TransactionType transactionType = null;
+
+                    // Check if the string is not null and handle the case insensitivity
+                    if (transactionTypeString != null) {
+                        try {
+                            transactionType = TransactionType.valueOf(transactionTypeString.toUpperCase());
+                        } catch (IllegalArgumentException e) {
+                            // Handle unexpected values (e.g., log an error or set to a default value)
+                            transactionType = TransactionType.RESERVE; // Default value or log error
+                        }
+                    }
+
                     return new Transaction(
                             rs.getInt("transaction_id"),
                             rs.getInt("patron_id"),
@@ -44,8 +58,8 @@ public class TransactionDAO {
                             rs.getDate("borrow_date").toLocalDate(),
                             rs.getDate("return_date") != null ? rs.getDate("return_date").toLocalDate() : null,
                             rs.getDate("due_date").toLocalDate(),
-                            rs.getBigDecimal("fine"),  // Directly use BigDecimal
-                            TransactionType.valueOf(rs.getString("transaction_type"))
+                            rs.getBigDecimal("fine"),
+                            transactionType // Set the parsed transaction type
                     );
                 }
             }
@@ -53,7 +67,6 @@ public class TransactionDAO {
         return null;
     }
 
-    // Retrieve all transactions from the database
     public List<Transaction> getAllTransactions() throws SQLException {
         String query = "SELECT * FROM Transactions";
         List<Transaction> transactions = new ArrayList<>();
@@ -61,6 +74,20 @@ public class TransactionDAO {
              PreparedStatement pstmt = conn.prepareStatement(query);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
+                // Retrieve transaction_type and handle potential case insensitivity
+                String transactionTypeString = rs.getString("transaction_type");
+                TransactionType transactionType = null;
+
+                // Check if the string is not null and handle the case insensitivity
+                if (transactionTypeString != null) {
+                    try {
+                        transactionType = TransactionType.valueOf(transactionTypeString.toUpperCase());
+                    } catch (IllegalArgumentException e) {
+                        // Handle unexpected values (e.g., log an error or set to a default value)
+                        transactionType = TransactionType.RESERVE; // Default value or log error
+                    }
+                }
+
                 transactions.add(new Transaction(
                         rs.getInt("transaction_id"),
                         rs.getInt("patron_id"),
@@ -68,13 +95,14 @@ public class TransactionDAO {
                         rs.getDate("borrow_date").toLocalDate(),
                         rs.getDate("return_date") != null ? rs.getDate("return_date").toLocalDate() : null,
                         rs.getDate("due_date").toLocalDate(),
-                        rs.getBigDecimal("fine"),  // Directly use BigDecimal
-                        TransactionType.valueOf(rs.getString("transaction_type"))
+                        rs.getBigDecimal("fine"),
+                        transactionType // Set the parsed transaction type
                 ));
             }
         }
         return transactions;
     }
+
 
     // Update the fine for a specific transaction
     public void updateTransactionFine(int transactionId, BigDecimal fine) throws SQLException {
