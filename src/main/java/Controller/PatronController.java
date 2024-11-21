@@ -14,17 +14,6 @@ public class PatronController {
         this.patronService = new PatronService();
     }
 
-    // Add a new patron
-    public void addPatron(Patron patron) {
-        try {
-            patronService.addPatron(patron);
-            System.out.println("Patron added successfully: " + patron);
-        } catch (SQLException e) {
-            System.err.println("Error adding patron: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Validation error: " + e.getMessage());
-        }
-    }
 
     // Get patron by ID
     public Patron getPatronById(int patronId) {

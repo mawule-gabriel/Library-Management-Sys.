@@ -28,21 +28,7 @@ public class ReservationController {
         }
     }
 
-    // Get reservation by ID
-    public void getReservationById(int reservationId) {
-        try {
-            Reservation reservation = reservationService.getReservationById(reservationId);
-            if (reservation != null) {
-                System.out.println("Reservation found: " + reservation);
-            } else {
-                System.out.println("No reservation found with ID: " + reservationId);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error retrieving reservation: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Validation error: " + e.getMessage());
-        }
-    }
+
 
     // Get all reservations
     public List<Reservation> getAllReservations() {
@@ -60,17 +46,7 @@ public class ReservationController {
         return new ArrayList<>();  // Return an empty list in case of an error
     }
 
-    // Update reservation status
-    public void updateReservationStatus(int reservationId, ReservationStatus status) {
-        try {
-            reservationService.updateReservationStatus(reservationId, status);
-            System.out.println("Reservation status updated successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error updating reservation status: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Validation error: " + e.getMessage());
-        }
-    }
+
 
     // Delete a reservation
     public void deleteReservation(int reservationId) {

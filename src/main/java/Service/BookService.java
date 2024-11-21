@@ -8,7 +8,7 @@ import Exception.BookException;
 import java.time.LocalDate;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class BookService {
     private final BookDAO bookDAO;
@@ -115,20 +115,7 @@ public class BookService {
         }
     }
 
-    // Search books
-    public List<Book> searchBooks(String keyword) throws BookException {
-        try {
-            // First try to search in cache
-            List<Book> cachedResults = searchInCache(keyword);
-            if (!cachedResults.isEmpty()) {
-                return cachedResults;
-            }
 
-            return bookDAO.searchBooks(keyword);
-        } catch (SQLException e) {
-            throw new BookException("Error searching for books", e);
-        }
-    }
 
     // Private helper methods
     private void validateBook(Book book) throws BookException {
@@ -156,23 +143,7 @@ public class BookService {
         return isbn.matches("^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$");
     }
 
-    private List<Book> searchInCache(String keyword) {
-        String lowercaseKeyword = keyword.toLowerCase();
-        return bookCache.stream()
-                .filter(book ->
-                        book.getTitle().toLowerCase().contains(lowercaseKeyword) ||
-                                book.getAuthor().toLowerCase().contains(lowercaseKeyword) ||
-                                book.getGenre().toLowerCase().contains(lowercaseKeyword) ||
-                                book.getIsbn().contains(keyword))
-                .collect(Collectors.toList());
-    }
 
-    private void updateCaches(Book book) {
-        // Update in linked list cache
-        bookCache.removeIf(b -> b.getBookId() == book.getBookId());
-        bookCache.add(book);
 
-        // Update in quick access cache
-        quickAccessCache.put(book.getBookId(), book);
-    }
+
 }

@@ -1,6 +1,5 @@
 package Entity;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class Patron {
@@ -69,18 +68,12 @@ public class Patron {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+
 
     public LocalDate getMembershipDate() {
         return membershipDate;
     }
 
-    // Here, we use `Date.valueOf()` to convert LocalDate to java.sql.Date for database insertion
-    public void setMembershipDate(LocalDate membershipDate) {
-        this.membershipDate = membershipDate;
-    }
 
     @Override
     public String toString() {

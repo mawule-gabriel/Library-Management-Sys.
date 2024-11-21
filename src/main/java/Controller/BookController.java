@@ -29,18 +29,6 @@ public class BookController {
         bookService.addBook(book);
     }
 
-    // Get a book by its ID
-    public Book getBookById(int bookId) throws Exception {
-        try {
-            Book book = bookService.getBookById(bookId);
-            if (book == null) {
-                throw new Exception("Book not found with ID: " + bookId);
-            }
-            return book;
-        } catch (SQLException e) {
-            throw new Exception("Error retrieving book: " + e.getMessage());
-        }
-    }
 
     // Retrieve all books
     public ObservableList<Book> getAllBooks() throws Exception {

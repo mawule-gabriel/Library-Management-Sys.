@@ -32,31 +32,14 @@ public class ReservationService {
         reservationDAO.addReservation(reservation);
     }
 
-    // Get a reservation by ID
-    public Reservation getReservationById(int reservationId) throws SQLException {
-        Reservation reservation = reservationDAO.getReservationById(reservationId);
-        if (reservation == null) {
-            throw new IllegalArgumentException("No reservation found with ID: " + reservationId);
-        }
-        return reservation;
-    }
+
 
     // Retrieve all reservations
     public List<Reservation> getAllReservations() throws SQLException {
         return reservationDAO.getAllReservations();
     }
 
-    // Update reservation status
-    public void updateReservationStatus(int reservationId, ReservationStatus status) throws SQLException {
-        if (status == null) {
-            throw new IllegalArgumentException("Reservation status cannot be null.");
-        }
-        Reservation reservation = reservationDAO.getReservationById(reservationId);
-        if (reservation == null) {
-            throw new IllegalArgumentException("No reservation found with ID: " + reservationId);
-        }
-        reservationDAO.updateReservationStatus(reservationId, status);
-    }
+
 
     // Delete a reservation
     public void deleteReservation(int reservationId) throws SQLException {

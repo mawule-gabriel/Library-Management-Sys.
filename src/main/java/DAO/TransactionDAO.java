@@ -143,32 +143,58 @@ public class TransactionDAO {
                     LocalDate borrowDate = LocalDate.now();
                     LocalDate dueDate = borrowDate.plusWeeks(2);
 
-                    // First, create the transaction record in the Transactions table
-                    String insertTransactionQuery = "INSERT INTO Transactions (patron_id, book_id, borrow_date, due_date, transaction_type) " +
-                            "VALUES (?, ?, ?, ?, ?)";
-                    try (PreparedStatement pstmtInsert = conn.prepareStatement(insertTransactionQuery, Statement.RETURN_GENERATED_KEYS)) {
-                        pstmtInsert.setInt(1, patronId);
-                        pstmtInsert.setInt(2, bookId);
-                        pstmtInsert.setDate(3, Date.valueOf(borrowDate));
-                        pstmtInsert.setDate(4, Date.valueOf(dueDate));
-                        pstmtInsert.setString(5, "BORROW"); // Transaction type is BORROW
-                        int affectedRows = pstmtInsert.executeUpdate();
+                    // Start a transaction (disable auto-commit)
+                    conn.setAutoCommit(false);
+                    try {
+                        // Insert the transaction record in the Transactions table
+                        String insertTransactionQuery = "INSERT INTO Transactions (patron_id, book_id, borrow_date, due_date, transaction_type) " +
+                                "VALUES (?, ?, ?, ?, ?)";
+                        try (PreparedStatement pstmtInsert = conn.prepareStatement(insertTransactionQuery, Statement.RETURN_GENERATED_KEYS)) {
+                            pstmtInsert.setInt(1, patronId);
+                            pstmtInsert.setInt(2, bookId);
+                            pstmtInsert.setDate(3, Date.valueOf(borrowDate));
+                            pstmtInsert.setDate(4, Date.valueOf(dueDate));
+                            pstmtInsert.setString(5, "BORROW"); // Transaction type is BORROW
+                            int affectedRows = pstmtInsert.executeUpdate();
 
-                        if (affectedRows > 0) {
-                            // Update the book table to mark the book as borrowed
-                            String updateBookStatusQuery = "UPDATE Books SET status = ? WHERE book_id = ?";
-                            try (PreparedStatement pstmtUpdate = conn.prepareStatement(updateBookStatusQuery)) {
-                                pstmtUpdate.setString(1, "BORROWED"); // Mark the book as borrowed
-                                pstmtUpdate.setInt(2, bookId);
-                                pstmtUpdate.executeUpdate();
+                            if (affectedRows > 0) {
+                                // Get the generated transaction ID
+                                try (ResultSet generatedKeys = pstmtInsert.getGeneratedKeys()) {
+                                    if (generatedKeys.next()) {
+                                        int transactionId = generatedKeys.getInt(1);
+
+                                        // Now update the book status to "BORROWED"
+                                        String updateBookStatusQuery = "UPDATE Books SET status = ? WHERE book_id = ?";
+                                        try (PreparedStatement pstmtUpdate = conn.prepareStatement(updateBookStatusQuery)) {
+                                            pstmtUpdate.setString(1, "BORROWED"); // Mark the book as borrowed
+                                            pstmtUpdate.setInt(2, bookId);
+                                            pstmtUpdate.executeUpdate();
+                                        }
+
+                                        // Commit the transaction if both updates succeed
+                                        conn.commit();
+
+                                        // Optionally, you can return the transactionId for further processing
+                                        System.out.println("Transaction created successfully with ID: " + transactionId);
+                                        return true; // Successfully borrowed the book
+                                    }
+                                }
                             }
-                            return true; // Successfully borrowed the book
                         }
+                    } catch (SQLException e) {
+                        // Rollback if any exception occurs
+                        conn.rollback();
+                        throw new SQLException("Failed to borrow the book, rolling back transaction.", e);
+                    } finally {
+                        // Set auto-commit back to true
+                        conn.setAutoCommit(true);
                     }
                 }
             }
         }
         return false; // Book not available for borrowing
     }
+
+
 
 }

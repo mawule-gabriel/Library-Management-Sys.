@@ -176,17 +176,7 @@ public class BookViewController implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
-    private TextField bookIdField; // Field to input book ID
-    @FXML
-    private TextField patronIdField; // Field to input patron ID
-    @FXML
-    public void handleBorrowBook() {
-        int bookId = Integer.parseInt(bookIdField.getText());
-        int patronId = Integer.parseInt(patronIdField.getText());
-        transactionController.borrowBook(bookId, patronId);
-        handleRefresh(); // Refresh the book list after borrowing
-    }
+
 
 
 }

@@ -3,13 +3,11 @@ package Service;
 import DAO.TransactionDAO;
 import Entity.Transaction;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 public class TransactionService {
     private final TransactionDAO transactionDAO;
-
 
     public TransactionService() {
         this.transactionDAO = new TransactionDAO();
@@ -26,22 +24,7 @@ public class TransactionService {
         }
     }
 
-    // Get a transaction by ID
-    public Transaction getTransactionById(int transactionId) {
-        if (transactionId <= 0) {
-            throw new IllegalArgumentException("Transaction ID must be greater than zero.");
-        }
 
-        try {
-            Transaction transaction = transactionDAO.getTransactionById(transactionId);
-            if (transaction == null) {
-                throw new IllegalArgumentException("No transaction found for ID: " + transactionId);
-            }
-            return transaction;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to retrieve transaction: " + e.getMessage(), e);
-        }
-    }
 
     // Get all transactions
     public List<Transaction> getAllTransactions() {
@@ -52,21 +35,7 @@ public class TransactionService {
         }
     }
 
-    // Update the fine for a transaction
-    public void updateTransactionFine(int transactionId, BigDecimal fine) {
-        if (transactionId <= 0) {
-            throw new IllegalArgumentException("Transaction ID must be greater than zero.");
-        }
-        if (fine == null || fine.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Fine must be non-negative.");
-        }
 
-        try {
-            transactionDAO.updateTransactionFine(transactionId, fine);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to update fine for transaction: " + e.getMessage(), e);
-        }
-    }
 
     // Delete a transaction by ID
     public void deleteTransaction(int transactionId) {
