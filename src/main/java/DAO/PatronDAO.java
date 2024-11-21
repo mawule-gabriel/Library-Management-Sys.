@@ -23,7 +23,7 @@ public class PatronDAO {
         }
     }
 
-    public Patron getPatronById(int patronId) throws SQLException {
+    public static Patron getPatronById(int patronId) throws SQLException {
         String query = "SELECT * FROM Patrons WHERE patron_id = ?";
         try (Connection conn = DatabaseUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, patronId);

@@ -1,7 +1,9 @@
 package Entity;
 
 import Entity.Enums.ReservationStatus;
-
+import DAO.PatronDAO;
+import DAO.BookDAO;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Reservation {
@@ -72,6 +74,16 @@ public class Reservation {
         this.dueDate = dueDate;
     }
 
+    // This method fetches the Patron's full name using PatronDAO.
+    public String getPatronName() throws SQLException {
+        Patron patron = PatronDAO.getPatronById(this.patronId);  // Fetch Patron by patronId
+        if (patron != null) {
+            return patron.getFirstName() + " " + patron.getLastName();  // Combine first and last names
+        } else {
+            return "Unknown Patron";  // If no Patron is found, return a default name
+        }
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -83,4 +95,15 @@ public class Reservation {
                 ", dueDate=" + dueDate +
                 '}';
     }
+
+    // This method fetches the Book's title using a BookDAO or any suitable service.
+    public String getBookTitle() throws SQLException {
+        Book book = BookDAO.getBookById(this.bookId);  // Fetch Book by bookId
+        if (book != null) {
+            return book.getTitle();  // Return the book title
+        } else {
+            return "Unknown Book";  // Return a default value if the book is not found
+        }
+    }
+
 }

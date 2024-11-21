@@ -25,7 +25,7 @@ public class BookDAO {
     }
 
     // Retrieve a book by its ID
-    public Book getBookById(int bookId) throws SQLException {
+    public static Book getBookById(int bookId) throws SQLException {
         String query = "SELECT * FROM Books WHERE book_id = ?";
         try (Connection conn = DatabaseUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, bookId);
