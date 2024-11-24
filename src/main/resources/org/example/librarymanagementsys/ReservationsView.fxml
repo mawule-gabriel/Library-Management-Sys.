@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controller.Views.ReservationsViewController"
+            styleClass="main-container">
+
+    <VBox spacing="20" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+        <!-- Header Section -->
+        <HBox styleClass="header-section">
+            <Text styleClass="header-text" text="Reservations Management"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="addButton" text="New Reservation" styleClass="action-button"/>
+        </HBox>
+
+        <!-- Search and Filter Section -->
+        <HBox spacing="10" styleClass="search-section">
+            <TextField fx:id="searchField" promptText="Search by ID, Patron, or Book"
+                       HBox.hgrow="ALWAYS"/>
+            <ComboBox fx:id="statusFilter" promptText="Filter by Status"/>
+            <DatePicker fx:id="dateFilter" promptText="Filter by Reservation Date"/>
+        </HBox>
+
+        <!-- Table Section -->
+        <TableView fx:id="reservationsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="idColumn" text="Reservation ID" minWidth="100"/>
+                <TableColumn fx:id="patronColumn" text="Patron ID" minWidth="100"/>
+                <TableColumn fx:id="bookColumn" text="Book ID" minWidth="100"/>
+                <TableColumn fx:id="dateColumn" text="Reservation Date" minWidth="150"/>
+                <TableColumn fx:id="statusColumn" text="Status" minWidth="120"/>
+                <TableColumn fx:id="dueDateColumn" text="Due Date" minWidth="150"/>
+                <TableColumn fx:id="actionsColumn" text="Actions" minWidth="150"/>
+            </columns>
+            <placeholder>
+                <Label text="No reservations found. Add a new reservation to get started."/>
+            </placeholder>
+        </TableView>
+
+        <!-- Status Summary Section -->
+        <HBox spacing="20" styleClass="status-section">
+            <VBox styleClass="status-box" alignment="CENTER">
+                <Label text="Pending" styleClass="status-label"/>
+                <Label fx:id="pendingCount" text="0" styleClass="status-count"/>
+            </VBox>
+            <VBox styleClass="status-box" alignment="CENTER">
+                <Label text="Fulfilled" styleClass="status-label"/>
+                <Label fx:id="fulfilledCount" text="0" styleClass="status-count"/>
+            </VBox>
+            <VBox styleClass="status-box" alignment="CENTER">
+                <Label text="Cancelled" styleClass="status-label"/>
+                <Label fx:id="cancelledCount" text="0" styleClass="status-count"/>
+            </VBox>
+        </HBox>
+
+        <!-- Back to Dashboard Button -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Back to Dashboard" onAction="#handleBackToDashboard" styleClass="button-default"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

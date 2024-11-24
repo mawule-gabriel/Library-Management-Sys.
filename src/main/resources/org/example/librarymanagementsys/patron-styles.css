@@ -1,0 +1,70 @@
+.main-container {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 15;
+}
+
+.button {
+    -fx-padding: 8 15;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.button-primary {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+
+.button-primary:hover {
+    -fx-background-color: #1976D2;
+}
+
+.button-secondary {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #388E3C;
+}
+
+.button-danger {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+}
+
+.button-danger:hover {
+    -fx-background-color: #D32F2F;
+}
+
+.button-default {
+    -fx-background-color: #9E9E9E;
+    -fx-text-fill: white;
+}
+
+.button-default:hover {
+    -fx-background-color: #757575;
+}
+
+.text-field {
+    -fx-padding: 8;
+    -fx-background-radius: 4;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 10;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+
+.date-picker {
+    -fx-background-color: white;
+}

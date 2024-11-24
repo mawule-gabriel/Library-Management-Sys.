@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Views.TransactionViewController"
+      styleClass="main-container"
+      spacing="20">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Header -->
+    <HBox styleClass="header-container" alignment="CENTER_LEFT" spacing="20">
+        <Label text="Transaction Management" styleClass="header-text"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="addButton" text="New Transaction" styleClass="action-button"/>
+    </HBox>
+
+    <!-- Search and Filter Section -->
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="search-container">
+        <TextField fx:id="searchField" promptText="Search transactions..." HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="filterType" promptText="Transaction Type"/>
+        <DatePicker fx:id="dateFilter" promptText="Filter by date"/>
+        <Button fx:id="searchButton" text="Search" styleClass="search-button"/>
+    </HBox>
+
+    <!-- Transaction Table -->
+    <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID"/>
+            <TableColumn fx:id="patronColumn" text="Patron ID"/>
+            <TableColumn fx:id="bookColumn" text="Book ID"/>
+            <TableColumn fx:id="borrowDateColumn" text="Borrow Date"/>
+            <TableColumn fx:id="dueDateColumn" text="Due Date"/>
+            <TableColumn fx:id="returnDateColumn" text="Return Date"/>
+            <TableColumn fx:id="fineColumn" text="Fine"/>
+            <TableColumn fx:id="typeColumn" text="Type"/>
+            <TableColumn fx:id="actionsColumn" text="Actions"/>
+        </columns>
+    </TableView>
+
+    <!-- Transaction Details Section -->
+    <TitledPane text="Transaction Details" expanded="false">
+        <VBox spacing="10">
+            <GridPane vgap="10" hgap="10">
+                <Label text="Patron ID:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="patronIdField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Book ID:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="bookIdField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Borrow Date:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <DatePicker fx:id="borrowDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                <Label text="Due Date:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <DatePicker fx:id="dueDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                <Label text="Transaction Type:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="transactionTypeCombo" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                <Label text="Fine:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <TextField fx:id="fineField" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            </GridPane>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="saveButton" text="Save" styleClass="save-button"/>
+                <Button fx:id="cancelButton" text="Cancel" styleClass="cancel-button"/>
+                <Button fx:id="borrowButton" text="Borrow Book" styleClass="action-button"/>
+                <Button fx:id="returnButton" text="Return Book" styleClass="action-button"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Back to Dashboard" onAction="#handleBackToDashboard" styleClass="button-default"/>
+            </HBox>
+        </VBox>
+    </TitledPane>
+</VBox>

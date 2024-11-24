@@ -1,0 +1,21 @@
+.main-container {
+    -fx-background-color: #f5f5f5;
+}
+
+.header-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 20;
+}
+
+.nav-button {
+    -fx-padding: 15 30;
+    -fx-font-size: 16px;
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #1976D2;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.Views.PatronViewController"
+      spacing="10"
+      styleClass="main-container">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Library Management System" styleClass="header-label"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Book Management"
+                onAction="#openBookView"
+                styleClass="nav-button"/>
+        <Button text="Patron Management"
+                onAction="#openPatronView"
+                styleClass="nav-button"/>
+    </HBox>
+
+</VBox>

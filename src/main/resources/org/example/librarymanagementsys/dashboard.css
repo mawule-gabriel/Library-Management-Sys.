@@ -1,0 +1,226 @@
+/* dashboard.css */
+
+.root {
+    -fx-background-color: #f5f5f5;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Sidebar styles */
+.sidebar {
+    -fx-background-color: #2980b9;
+    -fx-padding: 10px;
+}
+
+.profile-section {
+    -fx-padding: 20px 0 30px 0;
+}
+
+.profile-image {
+    -fx-fill: #ffffff;
+}
+
+.profile-name {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.profile-role {
+    -fx-text-fill: #bdc3c7;
+    -fx-font-size: 12px;
+}
+
+.sidebar-separator {
+    -fx-background-color: #34495e;
+}
+
+/* Navigation button styles */
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 12px 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-min-width: 200px;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 10;
+}
+
+.nav-button:hover {
+    -fx-background-color: #34495e;
+}
+
+.nav-button:pressed {
+    -fx-background-color: #2980b9;
+}
+
+.nav-button FontAwesomeIconView {
+    -fx-fill: white;
+}
+
+/* Main content area */
+.main-scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.main-content {
+    -fx-background-color: transparent;
+}
+
+/* Quotes section styling */
+.quotes-container {
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}
+
+.quote-box {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+    -fx-spacing: 15px;
+    -fx-alignment: CENTER;
+    -fx-min-width: 300px;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 15px;
+}
+
+.leader-image {
+    -fx-background-color: #2c3e50;
+    -fx-background-radius: 50%;
+}
+
+.leader-name {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a1a;
+}
+
+.quote-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #4a4a4a;
+    -fx-font-style: italic;
+    -fx-text-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+/* Page title section */
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.refresh-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 5px;
+}
+
+.refresh-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+/* Statistics boxes */
+.stat-box {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: CENTER;
+    -fx-min-width: 200px;
+    -fx-min-height: 150px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 10px;
+}
+
+.stat-icon {
+    -fx-fill: #1a1a1a;
+}
+
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+    -fx-font-weight: bold;
+}
+
+.stat-value {
+    -fx-font-size: 32px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.stat-trend {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.stat-trend.positive {
+    -fx-text-fill: #27ae60;
+}
+
+.stat-trend.negative {
+    -fx-text-fill: #c0392b;
+}
+
+/* Charts */
+.chart-container {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+    -fx-padding: 20px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 10px;
+}
+
+.chart-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Recent Activities */
+.recent-activities {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10 0;
+}
+
+/* TableView styling */
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f8f9fa;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-padding: 5px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f8f9fa;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #ecf0f1;
+}
