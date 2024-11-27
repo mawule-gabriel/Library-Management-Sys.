@@ -26,7 +26,10 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-
+/**
+ * Controller for managing the Dashboard view in the library management system.
+ * It handles the display of statistics, charts, and navigational actions within the dashboard.
+ */
 public class DashboardViewController implements Initializable {
 
     @FXML public Button bookView;
@@ -41,9 +44,16 @@ public class DashboardViewController implements Initializable {
     @FXML private HBox dashBox;
     private BookService bookService;
 
-    @FXML private BarChart<String, Number> circulationChart;  // Added BarChart for book circulation
-    @FXML private PieChart categoryChart; // Added PieChart for categories
+    @FXML private BarChart<String, Number> circulationChart;
+    @FXML private PieChart categoryChart;
 
+
+    /**
+     * Initializes the controller and sets up the dashboard view with data.
+     * It loads dashboard statistics, verifies and loads images, and populates the charts.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param rb The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.bookService = new BookService();
@@ -52,6 +62,10 @@ public class DashboardViewController implements Initializable {
         populateCharts(); // Call method to populate charts with data
     }
 
+    /**
+     * Verifies the existence of images and loads them into the respective ImageViews if not already loaded.
+     * This ensures that all images are displayed correctly.
+     */
     private void verifyImages() {
         try {
             if (mandelaImageView != null && mandelaImageView.getImage() == null) {
@@ -71,6 +85,10 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+    /**
+     * Loads the dashboard statistics from the service layer and updates the UI labels accordingly.
+     * The statistics include total books, active patrons, active transactions, and pending reservations.
+     */
     private void loadDashboardStats() {
         try {
             // For now, using dummy data
@@ -86,6 +104,10 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+    /**
+     * Populates the charts (BarChart and PieChart) with book circulation and category distribution data.
+     * The data is hardcoded for now.
+     */
     private void populateCharts() {
         // BarChart: Book Circulation Data
         XYChart.Series<String, Number> circulationSeries = new XYChart.Series<>();
@@ -104,6 +126,11 @@ public class DashboardViewController implements Initializable {
         categoryChart.getData().addAll(fictionData, nonFictionData, scienceData, historyData);
     }
 
+
+    /**
+     * Navigates to the dashboard view when the "dashboard View" button is clicked.
+     * It loads the DashboardView.fxml and updates the scene to display the dashboard screen.
+     */
     @FXML
     private void handleDashboardView(ActionEvent event) {
         try {
@@ -119,6 +146,10 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+    /**
+     * Navigates to the book view when the "Book View" button is clicked.
+     * It loads the BookView.fxml and updates the scene to display the book management screen.
+     */
     @FXML
     private void handleBookView(ActionEvent event) {
         try {
@@ -135,6 +166,11 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+
+    /**
+     * Navigates to the patron view when the "patron View" button is clicked.
+     * It loads the Patron.fxml and updates the scene to display the patron management screen.
+     */
     @FXML
     private void handlePatronView(ActionEvent event) {
         try {
@@ -150,6 +186,10 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+    /**
+     * Navigates to the staff view when the "staff View" button is clicked.
+     * It loads the staff.fxml and updates the scene to display the staff management screen.
+     */
     @FXML
     private void handleStaffView(ActionEvent event) {
         try {
@@ -165,6 +205,10 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+    /**
+     * Navigates to the transaction view when the "Book View" button is clicked.
+     * It loads the TransactionView.fxml and updates the scene to display the transaction management screen.
+     */
     @FXML
     private void handleTransactionView(ActionEvent event) {
         try {
@@ -180,6 +224,10 @@ public class DashboardViewController implements Initializable {
         }
     }
 
+    /**
+     * Navigates to the reservation view when the "reservation View" button is clicked.
+     * It loads the ReservationView.fxml and updates the scene to display the reservation management screen.
+     */
     @FXML
     private void handleReservationView(ActionEvent event) {
         try {
@@ -194,6 +242,8 @@ public class DashboardViewController implements Initializable {
             showError("Error loading Reservation view", e);
         }
     }
+
+
 
     private void showError(String message, Exception e) {
         System.err.println(message + ": " + e.getMessage());

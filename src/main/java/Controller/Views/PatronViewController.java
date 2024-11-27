@@ -40,6 +40,9 @@ public class PatronViewController implements Initializable {
     private PatronService patronService;
     private ObservableList<Patron> patronList;
 
+    /**
+     * Initializes the Patron View, sets up table columns, and loads patron data.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         patronService = new PatronService();
@@ -65,6 +68,11 @@ public class PatronViewController implements Initializable {
         });
     }
 
+
+    /**
+     * Searches for patrons based on the input in the search field (by ID or name).
+     * Updates the patron table with search results.
+     */
     @FXML
     private void handleSearch() {
         String searchText = searchField.getText().trim();
@@ -97,6 +105,10 @@ public class PatronViewController implements Initializable {
         patronTable.setItems(patronList);
     }
 
+    /**
+     * Adds a new patron to the system if the input fields are valid.
+     * Displays an alert if the patron is successfully added or if an error occurs.
+     */
     @FXML
     private void handleAdd() {
         if (validateInput()) {
@@ -121,6 +133,10 @@ public class PatronViewController implements Initializable {
         }
     }
 
+    /**
+     * Updates the address of the selected patron in the table.
+     * Displays an alert upon success or failure.
+     */
     @FXML
     private void handleUpdate() {
         Patron selectedPatron = patronTable.getSelectionModel().getSelectedItem();
@@ -138,6 +154,10 @@ public class PatronViewController implements Initializable {
         }
     }
 
+    /**
+     * Deletes the selected patron from the system after confirmation.
+     * Displays an alert upon success or failure.
+     */
     @FXML
     private void handleDelete() {
         Patron selectedPatron = patronTable.getSelectionModel().getSelectedItem();
@@ -162,6 +182,9 @@ public class PatronViewController implements Initializable {
         }
     }
 
+    /**
+     * Clears all input fields and reloads the patron table.
+     */
     @FXML
     private void handleClear() {
         clearFields();
@@ -169,6 +192,9 @@ public class PatronViewController implements Initializable {
         loadPatrons();
     }
 
+    /**
+     * Loads all patrons from the database and updates the patron table.
+     */
     private void loadPatrons() {
         try {
             patronList.clear();
@@ -179,6 +205,9 @@ public class PatronViewController implements Initializable {
         }
     }
 
+    /**
+     * Displays the details of the selected patron in the input fields.
+     */
     private void showPatronDetails(Patron patron) {
         firstNameField.setText(patron.getFirstName());
         lastNameField.setText(patron.getLastName());
@@ -188,6 +217,9 @@ public class PatronViewController implements Initializable {
         membershipDatePicker.setValue(patron.getMembershipDate());  // Direct access to LocalDate
     }
 
+    /**
+     * Clears the input fields and resets the patron table selection.
+     */
     private void clearFields() {
         firstNameField.clear();
         lastNameField.clear();
@@ -198,6 +230,10 @@ public class PatronViewController implements Initializable {
         patronTable.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Validates the input fields for adding or updating a patron.
+     * Displays an error alert if any required fields are missing.
+     */
     private boolean validateInput() {
         StringBuilder errorMessage = new StringBuilder();
 
@@ -222,6 +258,9 @@ public class PatronViewController implements Initializable {
         return true;
     }
 
+    /**
+     * Displays an alert with the specified message and type.
+     */
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -230,6 +269,9 @@ public class PatronViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Navigates back to the Dashboard view.
+     */
     @FXML
     public void handleBackToDashboard() {
         try {

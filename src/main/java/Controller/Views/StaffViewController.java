@@ -17,6 +17,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the Staff management view. Handles staff data display, adding new staff members,
+ * filtering staff list, and navigating to the Dashboard.
+ * Interacts with the StaffService to perform CRUD operations.
+ */
 public class StaffViewController implements Initializable {
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
@@ -38,6 +43,13 @@ public class StaffViewController implements Initializable {
     private final StaffService staffService = new StaffService();
     private final ObservableList<Staff> staffList = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the view, populates the role combo box, sets up table columns,
+     * and applies search functionality.
+     *
+     * @param url the location used to resolve relative paths for the root object, or null if the location is not known
+     * @param rb  the resources used to localize the root object, or null if the root object was not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Initialize role combo box
@@ -63,6 +75,11 @@ public class StaffViewController implements Initializable {
         refreshTable();
     }
 
+    /**
+     * Handles the action of adding a new staff member.
+     * Collects data from the input fields and calls the StaffService to add the new staff.
+     * Displays an alert with the result.
+     */
     @FXML
     private void handleAddStaff() {
         try {
@@ -85,11 +102,21 @@ public class StaffViewController implements Initializable {
         }
     }
 
+    /**
+     * Clears the input fields for adding a new staff member.
+     */
     @FXML
     private void handleClear() {
         clearFields();
     }
 
+
+    /**
+     * Filters the staff list based on the search text entered in the search field.
+     * Updates the table view to display matching staff records.
+     *
+     * @param searchText the text to filter the staff list
+     */
     private void filterStaff(String searchText) {
         ObservableList<Staff> filteredList = FXCollections.observableArrayList();
         if (searchText == null || searchText.isEmpty()) {
@@ -107,6 +134,9 @@ public class StaffViewController implements Initializable {
         }
     }
 
+    /**
+     * Clears all the input fields in the view.
+     */
     private void clearFields() {
         firstNameField.clear();
         lastNameField.clear();
@@ -116,12 +146,24 @@ public class StaffViewController implements Initializable {
         hireDatePicker.setValue(null);
     }
 
+    /**
+     * Refreshes the staff table by fetching the latest list of staff members
+     * from the StaffService and updating the table view.
+     */
     private void refreshTable() {
         staffList.clear();
         staffList.addAll(staffService.getAllStaff());
         staffTable.setItems(staffList);
     }
 
+    /**
+     * Displays an alert with a specified type, title, and content.
+     *
+     * @param type the type of alert (e.g., Information, Error)
+     * @param title the title of the alert
+     * @param content the content text of the alert
+     * @param s additional message, typically an error description
+     */
     private void showAlert(Alert.AlertType type, String title, String content, String s) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -130,7 +172,10 @@ public class StaffViewController implements Initializable {
         alert.showAndWait();
     }
 
-    // New method to handle navigation back to the Dashboard
+    /**
+     * Handles the navigation back to the Dashboard view.
+     * Switches the current scene to the Dashboard view.
+     */
     @FXML
     public void handleBackToDashboard() {
         try {

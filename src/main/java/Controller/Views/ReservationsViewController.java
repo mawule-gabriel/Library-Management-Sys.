@@ -27,6 +27,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+/**
+ * Controller for the Reservations view in the library management system.
+ * Manages reservation data display, filtering, and actions like add, edit, and delete,
+ * interacting with the ReservationController, PatronController, and BookController.
+ */
 public class ReservationsViewController {
     @FXML private TableView<Reservation> reservationsTable;
     @FXML private TableColumn<Reservation, Integer> idColumn;
@@ -58,6 +63,9 @@ public class ReservationsViewController {
         this.reservationsList = FXCollections.observableArrayList();
     }
 
+    /**
+     * Initializes the Reservations View by setting up table, filters, and listeners.
+     */
     @FXML
     public void initialize() {
         setupTable();
@@ -67,6 +75,9 @@ public class ReservationsViewController {
         updateStatusCounts();
     }
 
+    /**
+     * Sets up listeners for the Add, Edit, Delete actions, and table selection.
+     */
     private void setupListeners() {
         // Add Button Listener
         addButton.setOnAction(event -> handleAddReservation());
@@ -98,6 +109,9 @@ public class ReservationsViewController {
         });
     }
 
+    /**
+     * Configures the table columns for displaying reservation data.
+     */
     private void setupTable() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("reservationId"));
         patronColumn.setCellValueFactory(cellData -> {
@@ -121,6 +135,9 @@ public class ReservationsViewController {
         setupActionsColumn();
     }
 
+    /**
+     * Sets up the actions column with buttons for editing and deleting reservations.
+     */
     private void setupActionsColumn() {
         actionsColumn.setCellFactory(column -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
@@ -151,6 +168,9 @@ public class ReservationsViewController {
         });
     }
 
+    /**
+     * Configures the filters for searching and filtering reservations.
+     */
     private void setupFilters() {
         statusFilter.setItems(FXCollections.observableArrayList(ReservationStatus.values()));
 
@@ -161,12 +181,18 @@ public class ReservationsViewController {
         dateFilter.valueProperty().addListener((observable, oldValue, newValue) -> updateFilters());
     }
 
+    /**
+     * Loads all reservations from the database and updates the reservations table.
+     */
     private void loadReservations() {
         reservationsList.clear();
         reservationsList.addAll(reservationController.getAllReservations());
         reservationsTable.setItems(filteredReservations);
     }
 
+    /**
+     * Opens a dialog to edit the selected reservation.
+     */
     private void handleEditReservation(Reservation reservation) {
         Dialog<Reservation> dialog = new Dialog<>();
         dialog.setTitle("Edit Reservation");
@@ -185,6 +211,9 @@ public class ReservationsViewController {
         });
     }
 
+    /**
+     * Deletes the selected reservation after user confirmation.
+     */
     private void handleDeleteReservation(Reservation reservation) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Delete");
@@ -199,6 +228,9 @@ public class ReservationsViewController {
         });
     }
 
+    /**
+     * Updates the counts for pending, fulfilled, and cancelled reservations.
+     */
     private void updateStatusCounts() {
         long pending = filteredReservations.stream().filter(r -> r.getStatus() == ReservationStatus.PENDING).count();
         long fulfilled = filteredReservations.stream().filter(r -> r.getStatus() == ReservationStatus.FULFILLED).count();
@@ -216,6 +248,9 @@ public class ReservationsViewController {
         alert.showAndWait();
     }
 
+    /**
+     * Navigates back to the Dashboard view.
+     */
     @FXML
     public void handleBackToDashboard() {
         try {
@@ -232,6 +267,9 @@ public class ReservationsViewController {
         }
     }
 
+    /**
+     * Updates the filters based on the search field, status filter, and date filter.
+     */
     private void updateFilters() {
         filteredReservations.setPredicate(reservation -> {
             String searchText = searchField.getText().toLowerCase();
@@ -250,6 +288,9 @@ public class ReservationsViewController {
         });
     }
 
+    /**
+     * Opens a dialog to add a new reservation with the selected patron, book, and due date.
+     */
     @FXML
     public void handleAddReservation() {
         Dialog<ButtonType> dialog = new Dialog<>();

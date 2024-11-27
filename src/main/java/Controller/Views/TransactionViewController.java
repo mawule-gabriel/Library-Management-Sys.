@@ -22,6 +22,10 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Manages transaction views, including listing, searching, and processing transactions
+ * for borrowing and returning books in the library management system.
+ */
 public class TransactionViewController implements Initializable {
     @FXML private TableView<Transaction> transactionTable;
     @FXML private TableColumn<Transaction, Integer> idColumn;
@@ -55,10 +59,19 @@ public class TransactionViewController implements Initializable {
     private final ObservableList<Transaction> transactionList = FXCollections.observableArrayList();
     private Transaction currentTransaction; // For editing existing transactions
 
+
+
     public TransactionViewController() {
         this.transactionController = new TransactionController();
     }
 
+    /**
+     * Initializes the view, sets up the table, combo boxes, listeners, validation,
+     * and loads the transaction data.
+     *
+     * @param location the location used to resolve relative paths for the root object, or null if the location is not known
+     * @param resources the resources used to localize the root object, or null if the root object was not localized
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTable();
@@ -72,6 +85,9 @@ public class TransactionViewController implements Initializable {
         returnButton.setOnAction(event -> handleReturnBook());
     }
 
+    /**
+     * Sets up the columns of the transaction table.
+     */
     private void setupTable() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
         patronColumn.setCellValueFactory(new PropertyValueFactory<>("patronId"));
@@ -86,6 +102,10 @@ public class TransactionViewController implements Initializable {
         transactionTable.setItems(transactionList);
     }
 
+
+    /**
+     * Sets up the action column with edit and delete buttons for each transaction.
+     */
     private void setupActionColumn() {
         actionsColumn.setCellFactory(column -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
@@ -119,11 +139,17 @@ public class TransactionViewController implements Initializable {
         });
     }
 
+    /**
+     * Initializes the combo boxes for filtering and transaction types.
+     */
     private void setupComboBoxes() {
         filterType.getItems().addAll(TransactionType.values());
         transactionTypeCombo.getItems().addAll(TransactionType.values());
     }
 
+    /**
+     * Sets up the event listeners for buttons and fields.
+     */
     private void setupListeners() {
         addButton.setOnAction(event -> showAddForm());
         searchButton.setOnAction(event -> handleSearch());
@@ -135,6 +161,9 @@ public class TransactionViewController implements Initializable {
         dateFilter.valueProperty().addListener((observable, oldValue, newValue) -> handleSearch());
     }
 
+    /**
+     * Sets up validation for input fields (patron ID, book ID, fine).
+     */
     private void setupValidation() {
         patronIdField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
@@ -155,6 +184,9 @@ public class TransactionViewController implements Initializable {
         });
     }
 
+    /**
+     * Loads all transactions from the controller and adds them to the table view.
+     */
     private void loadTransactions() {
         transactionList.clear();
         try {
@@ -164,6 +196,9 @@ public class TransactionViewController implements Initializable {
         }
     }
 
+    /**
+     * Filters the transactions based on search criteria (text, type, date).
+     */
     private void handleSearch() {
         String searchText = searchField.getText().toLowerCase();
         TransactionType selectedType = filterType.getValue();
@@ -175,6 +210,16 @@ public class TransactionViewController implements Initializable {
                 .toList());
     }
 
+
+    /**
+     * Determines if a transaction matches the search criteria.
+     *
+     * @param t the transaction to check
+     * @param searchText the search text
+     * @param type the selected transaction type
+     * @param date the selected date
+     * @return true if the transaction matches the search criteria, false otherwise
+     */
     private boolean matchesSearchCriteria(Transaction t, String searchText,
                                           TransactionType type, LocalDate date) {
         boolean matchesText = searchText.isEmpty() ||
@@ -189,6 +234,9 @@ public class TransactionViewController implements Initializable {
         return matchesText && matchesType && matchesDate;
     }
 
+    /**
+     * Displays the form to add a new transaction.
+     */
     private void showAddForm() {
         currentTransaction = null;
         clearForm();
@@ -197,6 +245,11 @@ public class TransactionViewController implements Initializable {
         fineField.setText("0.00");
     }
 
+    /**
+     * Displays the form to edit an existing transaction.
+     *
+     * @param transaction the transaction to edit
+     */
     private void showEditForm(Transaction transaction) {
         currentTransaction = transaction;
         patronIdField.setText(String.valueOf(transaction.getPatronId()));
@@ -207,6 +260,9 @@ public class TransactionViewController implements Initializable {
         fineField.setText(transaction.getFine().toString());
     }
 
+    /**
+     * Saves the transaction data (either new or edited) to the database.
+     */
     private void handleSave() {
         if (!validateForm()) {
             return;
@@ -228,6 +284,11 @@ public class TransactionViewController implements Initializable {
         }
     }
 
+    /**
+     * Deletes a selected transaction after confirmation.
+     *
+     * @param transaction the transaction to delete
+     */
     private void handleDelete(Transaction transaction) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Delete");
@@ -246,6 +307,9 @@ public class TransactionViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles borrowing a book by validating the form and calling the transaction controller.
+     */
     private void handleBorrowBook() {
         if (!validateBorrowForm()) {
             return; // Validate input fields
@@ -266,6 +330,9 @@ public class TransactionViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles returning a borrowed book by calling the transaction controller.
+     */
     private void handleReturnBook() {
         Transaction selectedTransaction = transactionTable.getSelectionModel().getSelectedItem();
         if (selectedTransaction == null) {
@@ -285,6 +352,11 @@ public class TransactionViewController implements Initializable {
         }
     }
 
+    /**
+     * Validates the input fields for borrowing a book.
+     *
+     * @return true if the form is valid, false otherwise
+     */
     private boolean validateBorrowForm() {
         if (patronIdField.getText().isEmpty()) {
             showError("Validation Error", "Patron ID is required.");
@@ -297,6 +369,11 @@ public class TransactionViewController implements Initializable {
         return true;
     }
 
+    /**
+     * Validates the input fields for creating or editing a transaction.
+     *
+     * @return true if the form is valid, false otherwise
+     */
     private boolean validateForm() {
         StringBuilder errors = new StringBuilder();
 
@@ -326,6 +403,11 @@ public class TransactionViewController implements Initializable {
         return true;
     }
 
+    /**
+     * Creates a transaction object from the form data.
+     *
+     * @return a new Transaction object
+     */
     private Transaction createTransactionFromForm() {
         return new Transaction(
                 0, // For new transactions, ID will be generated
@@ -339,6 +421,9 @@ public class TransactionViewController implements Initializable {
         );
     }
 
+    /**
+     * Clears the form for creating or editing a transaction.
+     */
     private void clearForm() {
         currentTransaction = null;
         patronIdField.clear();
@@ -349,6 +434,11 @@ public class TransactionViewController implements Initializable {
         fineField.setText("0.00");
     }
 
+    /**
+     * Displays a success message in an alert dialog.
+     *
+     * @param message the success message
+     */
     private void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -357,6 +447,12 @@ public class TransactionViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Displays an error message in an alert dialog.
+     *
+     * @param title the title of the error message
+     * @param message the error message
+     */
     private void showError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -365,6 +461,9 @@ public class TransactionViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Navigates back to the Dashboard view.
+     */
     @FXML
     public void handleBackToDashboard() {
         try {

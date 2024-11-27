@@ -18,6 +18,10 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for managing book-related operations in the view.
+ * Handles adding, deleting, searching, and displaying books.
+ */
 public class BookViewController implements Initializable {
     private final TransactionController transactionController = new TransactionController();
 
@@ -38,12 +42,18 @@ public class BookViewController implements Initializable {
     @FXML private TableColumn<Book, Integer> yearColumn;
     @FXML private TableColumn<Book, BookStatus> statusColumn;
 
+    /**
+     * Initializes the view components and populates the table with book data.
+     * Sets up columns in the table, populates the status combo box, and adds a listener for the search field.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param rb The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Initialize ComboBox
+
         statusComboBox.setItems(FXCollections.observableArrayList(BookStatus.values()));
 
-        // Initialize TableView columns
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("bookId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -58,6 +68,10 @@ public class BookViewController implements Initializable {
         loadBooks();
     }
 
+    /**
+     * Handles the addition of a new book based on user input from the form.
+     * Validates the input, adds the book to the database, and reloads the table.
+     */
     @FXML
     private void handleAddBook() {
         try {
@@ -80,6 +94,9 @@ public class BookViewController implements Initializable {
         }
     }
 
+    /**
+     * Deletes the selected book from the table.
+     */
     @FXML
     private void handleDeleteBook() {
         Book selectedBook = bookTable.getSelectionModel().getSelectedItem();
@@ -105,12 +122,18 @@ public class BookViewController implements Initializable {
         }
     }
 
+    /**
+     * Clears all input fields in the book form.
+     */
     @FXML
     private void handleClearForm() {
         clearForm();
     }
 
 
+    /**
+     * Refreshes the book list by reloading the data from the database.
+     */
     public void handleRefresh() {
         try {
             loadBooks();  // This method already fetches books from the database
@@ -119,6 +142,9 @@ public class BookViewController implements Initializable {
         }
     }
 
+    /**
+     * Clears the form fields for entering book information, resetting them to their default values.
+     */
     private void clearForm() {
         titleField.clear();
         authorField.clear();
@@ -127,6 +153,10 @@ public class BookViewController implements Initializable {
         statusComboBox.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Loads the list of all books from the database and populates the table.
+     * If an error occurs, an error alert is displayed.
+     */
     private void loadBooks() {
         try {
             bookList = bookController.getAllBooks();
@@ -136,6 +166,11 @@ public class BookViewController implements Initializable {
         }
     }
 
+    /**
+     * Filters the book list based on the search text entered by the user.
+     * The search is case-insensitive and checks if the text appears in the title, author, or genre.
+     * @param searchText The text entered by the user to filter the book list.
+     */
     private void filterBooks(String searchText) {
         if (bookList != null) {
             ObservableList<Book> filteredList = bookList.filtered(book ->
@@ -147,6 +182,13 @@ public class BookViewController implements Initializable {
         }
     }
 
+    /**
+     * Displays a custom alert with a given type, title, and content.
+     * This method is used for showing success, error, and informational messages to the user.
+     * @param type The type of the alert (e.g., INFORMATION, ERROR).
+     * @param title The title of the alert.
+     * @param content The content text of the alert.
+     */
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -155,6 +197,10 @@ public class BookViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Navigates the user back to the dashboard view.
+     * This method loads the dashboard FXML and switches the scene to display it.
+     */
     @FXML
     public void handleBackToDashboard() {
         try {
