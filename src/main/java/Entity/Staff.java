@@ -10,9 +10,10 @@ public class Staff {
     private String email;
     private String phoneNumber;
     private LocalDate hireDate;
+    private String password; // Password field
 
     // Constructor
-    public Staff(int staffId, String firstName, String lastName, String role, String email, String phoneNumber, LocalDate hireDate) {
+    public Staff(int staffId, String firstName, String lastName, String role, String email, String phoneNumber, LocalDate hireDate, String password) {
         this.staffId = staffId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,9 +21,10 @@ public class Staff {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.hireDate = hireDate;
+        this.password = password;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public int getStaffId() {
         return staffId;
     }
@@ -77,5 +79,13 @@ public class Staff {
 
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

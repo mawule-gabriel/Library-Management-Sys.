@@ -10,31 +10,36 @@ import java.util.List;
 
 public class StaffDAO {
 
-    public List<Staff> getAllStaff() {
-        List<Staff> staffList = new ArrayList<>();
-        String query = "SELECT * FROM Staff";
+    // Get staff by email and password for login
+    public Staff getStaffByCredentials(String email, String password) {
+        String query = "SELECT * FROM Staff WHERE email = ? AND password = ?";
 
         try (Connection connection = DatabaseUtil.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(query)) {
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
 
-            while (rs.next()) {
-                staffList.add(new Staff(
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Staff(
                         rs.getInt("staff_id"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("role"),
                         rs.getString("email"),
                         rs.getString("phone_number"),
-                        rs.getDate("hire_date").toLocalDate() // Convert to LocalDate
-                ));
+                        rs.getDate("hire_date").toLocalDate(),
+                        rs.getString("password")
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return staffList;
+        return null; // No match found
     }
 
+    // Add staff member
     public void addStaff(Staff staff) {
         String query = "INSERT INTO Staff (first_name, last_name, role, email, phone_number, hire_date) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -51,5 +56,33 @@ public class StaffDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // Retrieve all staff members
+    public List<Staff> getAllStaff() {
+        List<Staff> staffList = new ArrayList<>();
+        String query = "SELECT * FROM Staff";
+
+        try (Connection connection = DatabaseUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                staffList.add(new Staff(
+                        rs.getInt("staff_id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("role"),
+                        rs.getString("email"),
+                        rs.getString("phone_number"),
+                        rs.getDate("hire_date").toLocalDate(),
+                        rs.getString("password")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return staffList; // Return the list of staff members
     }
 }

@@ -1,7 +1,7 @@
 package Controller.Views;
 
+import Entity.Staff;
 import Service.BookService;
-import Service.PatronService;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,9 +22,7 @@ import javafx.stage.Stage;
 import org.example.librarymanagementsys.HelloApplication;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
-
 
 /**
  * Controller for managing the Dashboard view in the library management system.
@@ -47,6 +45,17 @@ public class DashboardViewController implements Initializable {
     @FXML private BarChart<String, Number> circulationChart;
     @FXML private PieChart categoryChart;
 
+    @FXML
+    private Label welcomeLabel;
+
+    // This method is called to initialize the dashboard with the logged-in staff data
+    public void initializeDashboard(Staff staff) {
+        if (staff != null) {
+            welcomeLabel.setText("Welcome, " + staff.getFirstName() + " " + staff.getLastName());
+        } else {
+            welcomeLabel.setText("Welcome to the Dashboard");
+        }
+    }
 
     /**
      * Initializes the controller and sets up the dashboard view with data.
@@ -126,7 +135,6 @@ public class DashboardViewController implements Initializable {
         categoryChart.getData().addAll(fictionData, nonFictionData, scienceData, historyData);
     }
 
-
     /**
      * Navigates to the dashboard view when the "dashboard View" button is clicked.
      * It loads the DashboardView.fxml and updates the scene to display the dashboard screen.
@@ -165,7 +173,6 @@ public class DashboardViewController implements Initializable {
             e.printStackTrace(); // Add this to see more detailed error information
         }
     }
-
 
     /**
      * Navigates to the patron view when the "patron View" button is clicked.
@@ -243,10 +250,32 @@ public class DashboardViewController implements Initializable {
         }
     }
 
-
-
     private void showError(String message, Exception e) {
         System.err.println(message + ": " + e.getMessage());
         e.printStackTrace();
     }
+
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        try {
+            // Get the current stage
+            Stage stage = (Stage) dashBox.getScene().getWindow();
+
+            // Load the Login view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/librarymanagementsys/login.fxml"));
+            Parent root = loader.load();
+
+            // Create a new scene with the Login view
+            Scene scene = new Scene(root);
+
+            // Set the stage to the Login scene
+            stage.setScene(scene);
+
+            // Show the login window
+            stage.show();
+        } catch (Exception e) {
+            showError("Error loading Login view", e);
+        }
+    }
+
 }

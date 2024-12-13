@@ -55,6 +55,13 @@
                         <FontAwesomeIconView glyphName="CALENDAR" size="16"/>
                     </graphic>
                 </Button>
+                <!-- Add Logout Button -->
+                <Region HBox.hgrow="ALWAYS"/> <!-- Ensures spacing between buttons and logout -->
+                <Button text="Logout" onAction="#handleLogout" styleClass="nav-button">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SIGN_OUT" size="16"/>
+                    </graphic>
+                </Button>
             </VBox>
         </left>
 
@@ -66,7 +73,7 @@
                     </padding>
 
                     <HBox spacing="20" alignment="CENTER_LEFT">
-                        <Label text="Dashboard Overview" styleClass="page-title">
+                        <Label fx:id="welcomeLabel" text="Welcome to the Dashboard" styleClass="page-title">
                             <font>
                                 <Font name="System Bold" size="24.0"/>
                             </font>
